@@ -9,9 +9,14 @@ pygame.init()
 width = 640
 height = 480
 screen = pygame.display.set_mode((width,height))
+pygame.display.set_caption("The Kingdom")
 keys = [False,False,False,False]
 
+
 playerPosition = [200,100]
+enemyTimer = 100
+enemyTimer1 = 0
+enemies = [[640,100]]
 pygame.mixer.init()
 
 #load the game images
@@ -20,6 +25,8 @@ grass = pygame.image.load("resources/images/grass.png")
 castle = pygame.image.load("resources/images/castle.png")
 healthbar = pygame.image.load("resources/images/healthbar.png")
 mute = pygame.image.load("resources/images/mute.png")
+goblin = pygame.image.load("resources/images/Goblin.png")
+enemy = goblin
 #load audio
 pygame.mixer.music.load("resources/audio/intro.wav")
 pygame.mixer.music.play(-1,0.0)
@@ -46,9 +53,11 @@ while running:
 	playerPosition1 = (playerPosition[0]-playerRotation.get_rect().width/2,playerPosition[1]-playerRotation.get_rect().height/2)
 	screen.blit(playerRotation,playerPosition1)
 
-	#draw mute
-	screen.blit(mute,(600,430))
-	#if I click on the mute image
+	#Draw Enemies To screen
+	screen.blit(goblin,(450,100))
+
+
+
 	#set music volume to 0
 	#set new image to unmute
 	 
@@ -84,6 +93,16 @@ while running:
 				keys[2] = False
 			elif event.key == K_d:
 				keys[3] = False
+			#elif event.key == K_m:
+				#keys[4] = False
+		if (pygame.key.get_pressed()[pygame.K_m] == 1):
+			pygame.mixer.music.pause()
+			#draw mute
+			screen.blit(mute,(600,430))
+	
+		elif (pygame.key.get_pressed()[pygame.K_u] == 1):
+			pygame.mixer.music.play(-1,0.0) 
+
 
 	#move player
 	if keys[0]:
@@ -95,9 +114,11 @@ while running:
 	elif keys[3]:
 		playerPosition[0] += 5
 
-	while 1:
-		for event in pygame.event.get():
-			if event.type == pygame.QUIT:
-				pygame.quit()
-				exit(0)
-		pygame.display.flip()
+while 1:
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT:
+			pygame.quit()
+			exit(0)
+	pygame.display.flip()
+
+	
